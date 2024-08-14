@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node{
+    int info;
+    struct node *link;
+};
+
+typedef struct node *NODE;
+
+NODE getnode()
+{
+    NODE x;
+    x = (NODE)malloc(sizeof(struct node));
+    if(x == NULL){
+        printf("Memory allocation failed\n");
+        exit(0);
+    }
+    return x;
+}
+
+NODE In_f(int item, NODE first){
+    NODE temp = getnode();
+    temp->info = item;
+    temp->link = first;
+    first = temp;
+    return first;
+}
+
+NODE In_r(int item, NODE first){
+    NODE temp = getnode();
+    temp->info = item;
+    temp->link = NULL;
+    if(first == NULL){
+        return temp;
+    }
+    else{
+        NODE cur = first;
+        while(cur->link != NULL){
+            cur = cur->link;
+        }
+        cur->link = temp;
+    }
+    return first;
+}
+
+void print(NODE first){
+    NODE cur = first;
+    if (cur == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    while(cur != NULL){
+        printf("%d ", cur->info);
+        cur = cur->link;
+    }
+    printf("\n");
+}
+
+void main() {
+    NODE first = NULL;
+    int choice, item;
+
+    while(1) {
+        printf("\n1. Insert at Front\n");
+        printf("2. Insert at Rear\n");
+        printf("3. Print List\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                printf("Enter the item to insert at front: ");
+                scanf("%d", &item);
+                first = In_f(item, first);
+                break;
+            case 2:
+                printf("Enter the item to insert at rear: ");
+                scanf("%d", &item);
+                first = In_r(item, first);
+                break;
+            case 3:
+                print(first);
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
+}
