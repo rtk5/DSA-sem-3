@@ -58,7 +58,24 @@ void display(NODE first) {
     }
     printf("NULL\n");
 }
-
+NODE in_pos(int item, int pos, NODE first) {
+    NODE temp = getNode();
+    NODE prev,cur;
+    temp -> info = item;
+    if(first==NULL)
+    {
+    printf("invalid position/list is empty");
+    return first;
+    }
+    if(pos==1) {
+        temp -> link = first;
+        return temp;
+    }
+    int count = 1;
+    count =1;
+    prev = NULL;
+    cur = first;
+}
 // int main() {
 //      NODE first = NULL;  
 
