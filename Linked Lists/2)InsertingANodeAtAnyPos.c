@@ -1,152 +1,132 @@
-#include <stdio.h>
+#include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
-struct student
-{
-  char name[20];
-  int id;
-  int sem;
-  struct student *link;
+
+struct node {
+    int info;
+    struct node * link;
 };
+typedef struct node * NODE;
 
-typedef struct student * STUDENT;
-
-STUDENT getnode()
-{
-  STUDENT x;
-  x=(STUDENT)malloc(sizeof(struct student));
-  if(x==NULL)
-  {
-    printf("no memory");
-    exit(0);
-  }
-  return x;
-}
-
-STUDENT insert_front(char *name,int id,int sem, STUDENT first)
-{
-  STUDENT temp;
-  temp=getnode();
-  strcpy(temp->name,name);
-  temp->id=id;
-  temp->sem=sem;
-  temp->link=first;
-  first=temp;
-  return first;
-}
-
-STUDENT insert_rear(char *name,int id,int sem, STUDENT first)
-{
-  STUDENT temp;
-  STUDENT cur;
-  temp=getnode();
-  strcpy(temp->name,name);
-  temp->id=id;
-  temp->sem=sem;
-  temp->link=NULL;
-  if(first==NULL)
-  {//first=temp;return first;
+NODE getNode() {
+    NODE temp;
+    temp = (NODE)malloc(sizeof(struct node));
+    if( temp == NULL) {
+        printf("Memory allotment failed");
+        exit(0);
+    }
     return temp;
-  }
-  cur=first;
-  while(cur->link!=NULL)
-  {
-    cur=cur->link;
-  }
-  cur->link=temp;
-  return first;
-  }
+}
 
-STUDENT insert_pos(char *name,int id,int sem,int pos, STUDENT first)
-{
-  STUDENT temp;
-  STUDENT prev,cur;
-  int count;
-  temp=getnode();
-  strcpy(temp->name,name);
-  temp->id=id;
-  temp->sem=sem;
-  temp->link=NULL;
-  if(first==NULL && pos==1)
-  return temp;
-  if(first==NULL)
-  {
-  printf("invalid position/list is empty");
-  return first;
-  }
-  if(pos==1)
-  {
-  temp->link=first;
-  return temp;
-  }
-  count=1;
-  prev=NULL;
-  cur=first;
-  while(cur!=NULL && count!=pos)
-  {
-    prev=cur;
-    cur=cur->link;
-    count++;
-  }
-  if(count==pos)
-  {
-    prev->link=temp;
-    temp->link=cur;
+NODE in_front(int item, NODE first) {
+    NODE temp = getNode();
+    temp -> info = item;
+    temp -> link = first;
+    if(first == NULL) {
+        temp -> link = NULL;
+        first = temp;
+    }
+    first = temp;
     return first;
-  }
-  printf("invalid position\n");
-  return first;
 }
-void display(STUDENT first)
-{
-  STUDENT temp;
-  if(first==NULL);
-  {
-  printf("NO record");
-  return;
-  }
-  for (temp=first;temp!=NULL;temp=temp->link)
-  {
-    printf("%s%d%d\n",temp->name,temp->id,temp->sem);
-  }
+
+NODE in_rear(int item, NODE first) {
+    NODE temp = getNode();
+    temp -> info = item;
+    temp -> link = NULL;
+    if(first == NULL) {
+        return temp;
+    }
+    NODE current;
+    current = first;
+    while( current -> link != NULL) {
+        current = current -> link;
+    }
+    current -> link = temp;
+    return first;
 }
-void main()
-{
-  STUDENT first=NULL;
-  int choice, id,sem,pos;
-  char name[20];
-  for(;;)
-  {
-    printf("1:insert_front\n");
-    printf("2:insert_rare\n");
-    printf("3:insert_pos\n");
-    printf("4:display\n");
-    printf("5:exit\n");
-    printf("enter your choice\n");
-    scanf("%d",&choice);
-    if(choice==1||choice==2||choice==3);
-    {
-      printf("enter student information");
-      printf("Name:");
-      scanf("%s",name);
-      printf("ID:");
-      scanf("%d",&id);
-      printf("Sem:");
-      scanf("%d",&sem);
+
+NODE in_pos(int item,int pos, NODE first) {
+    NODE temp,prev,cur;
+    int count;
+    temp = getNode();
+    temp -> info = item;
+    temp -> link = NULL;
+    if( first == NULL && pos == 1)
+        return temp;
+    if(first == NULL) {
+        printf("List is empty");
+        return first;
     }
-    switch(choice)
-    {
-      case 1: first=insert_front(name,id,sem,first);
-                break;
-      case 2: first=insert_rear(name,id,sem,first);
-                break;
-      case 3: printf("enter the position\n");
-              scanf("%d",&pos);
-              first=insert_pos(name,id,sem,pos,first);
-      case 4: display(first);
-              break;
-      case 5: exit(0);
-              break;
+    if(pos==1) {
+    temp->link=first;
+    return temp;
     }
-  }
+    count=1;
+    prev=NULL;
+    cur=first;
+    while( cur != NULL && count!=pos) {
+        prev = cur;
+        cur = cur-> link;
+        count++;
+    }
+    if(count == pos) {
+        prev -> link = temp;
+        temp -> link = cur;
+        return first;
+    }
+    printf("Invalid position\n");
+    return first;
+}
+void display(NODE first) {
+    NODE current = first;
+    if (current == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+    printf("Linked List: ");
+    while (current != NULL) {
+        printf("%d -> ", current->info);
+        current = current->link;
+    }
+    printf("NULL\n");
+}
+
+void main() {
+    NODE first = NULL;
+    int choice, item, pos;
+
+    while(1) {
+        printf("\n1. Insert at Front\n");
+        printf("2. Insert at Rear\n");
+        printf("3. Insert at Position\n");
+        printf("4. Display List\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                printf("Enter the item to insert at front: ");
+                scanf("%d", &item);
+                first = in_front(item, first);
+                break;
+            case 2:
+                printf("Enter the item to insert at rear: ");
+                scanf("%d", &item);
+                first = in_rear(item, first);
+                break;
+            case 3:
+                printf("Enter the item and position it has to be inserted at: ");
+                scanf("%d %d",&item,&pos);
+                first = in_pos(item, pos, first);
+                break;
+            case 4:
+                display(first);
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
 }
