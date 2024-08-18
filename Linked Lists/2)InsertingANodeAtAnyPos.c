@@ -52,7 +52,7 @@ NODE in_pos(int item,int pos, NODE first) {
     temp -> info = item;
     temp -> link = NULL;
     if( first == NULL && pos == 1)
-        return temp;
+    return temp;
     if(first == NULL) {
         printf("List is empty");
         return first;
