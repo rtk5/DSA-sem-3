@@ -19,7 +19,7 @@ NODE getNode()
     return temp;
 }
 
-void insert_front(int item, NODE head)
+NODE insert_front(int item, NODE head)
 {
     NODE temp = getNode();
     temp->info = item;
@@ -38,9 +38,10 @@ void insert_front(int item, NODE head)
         cur->llink = temp;
         head = temp;
     }
+    return head;
 }
 
-void insert_rear(int item, NODE head)
+NODE insert_rear(int item, NODE head)
 {
     NODE temp = getNode();
     temp->info = item;
@@ -61,9 +62,10 @@ void insert_rear(int item, NODE head)
         cur->rlink = temp;
         temp->llink = cur;
     }
+    return head;
 }
 
-void insert_pos(int item, int pos, NODE head)
+NODE insert_pos(int item, int pos, NODE head)
 {
     if (head == NULL && pos != 1)
     {
@@ -91,11 +93,12 @@ void insert_pos(int item, int pos, NODE head)
         prev->rlink = temp;
         temp->llink = prev;
         temp->rlink = cur;
-        cur->llink = temp
+        cur->llink = temp;
     }
+    return head;
 }
 
-void display(NODE head)
+NODE display(NODE head)
 {
     NODE current = head;
     if (current == NULL)
@@ -112,7 +115,7 @@ void display(NODE head)
     printf("NULL\n");
 }
 
-void main()
+int main()
 {
     NODE head = NULL;
     int choice, item, pos;
@@ -153,4 +156,5 @@ void main()
             printf("Invalid choice! Please try again.\n");
         }
     }
+    return 0;
 }
