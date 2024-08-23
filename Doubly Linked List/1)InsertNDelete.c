@@ -159,7 +159,70 @@ NODE delete_rear(NODE head) {
     return head;
 }
 
+NODE delete_pos(int pos,NODE head) {
+    if(head == NULL) {
+        printf("list is empty");
+        return NULL;
+    }
+    if (pos == 1) {
+        return delete_front(head);
+    }
+    int count =1;
+    NODE cur = head;
+    while(count!=pos && cur!=NULL) {
+        cur = cur -> rlink;
+        count++;
+    }
+    if(count==pos && cur!=NULL) {
+        NODE prev = cur ->llink;
+        NODE next = cur -> rlink;
+        if (prev != NULL) 
+            prev->rlink = next;
+        if (next != NULL) 
+            next->llink = prev;
+        free(cur);
+    }
+    else {
+    printf("Invalid position");
+    return NULL;
+    }
+    return head;
+}
 
+NODE delete_key(int key, NODE head) {
+    if(head == NULL) {
+        printf("List is empty");
+        return NULL;
+    }
+    NODE cur = head;
+    NODE prev = NULL;
+    // If the key is at the head
+    if (cur->info == key) {
+        head = cur->rlink;
+        if (head != NULL) {
+            head->llink = NULL;
+        }
+        free(cur);
+        return head;
+    }   
+    while(cur!=NULL && cur->info!=key) {
+        prev = cur;
+        cur = cur -> rlink;
+    }
+    if(cur!=NULL && cur->info ==key) {
+        NODE next = NULL;
+        if(cur-> rlink !=NULL)
+            next = cur -> rlink;
+        prev -> rlink = next;
+        next -> llink = prev;
+        free(cur);
+    }
+    else {
+        printf("Invalid key");
+        return NULL;
+    }
+    return head;
+}
 
 int main()
 {
@@ -173,6 +236,7 @@ int main()
         printf("3. Insert at Position\n");
         printf("6. Detete at front end\n");
         printf("7. Detete at rear end\n");
+        printf("8. Delete at Position\n");
         printf("4. Display List\n");
         printf("5. Exit\n");
         printf("Enter your choice: ");
@@ -194,6 +258,11 @@ int main()
             printf("Enter the item and position it has to be inserted at: ");
             scanf("%d %d", &item, &pos);
             head = insert_pos(item, pos, head);
+            break;
+        case 8:
+            printf("Enter the position of the node that has to be deleted: ");
+            scanf("%d",&pos);
+            head = delete_pos(pos, head);
             break;
         case 6:
             head = delete_front(head);
