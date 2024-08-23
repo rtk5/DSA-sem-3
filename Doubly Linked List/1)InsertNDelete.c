@@ -227,7 +227,7 @@ NODE delete_key(int key, NODE head) {
 int main()
 {
     NODE head = NULL;
-    int choice, item, pos;
+    int choice, item, pos, key;
 
     while (1)
     {
@@ -237,6 +237,7 @@ int main()
         printf("6. Detete at front end\n");
         printf("7. Detete at rear end\n");
         printf("8. Delete at Position\n");
+        printf("9. Delete node with key\n");
         printf("4. Display List\n");
         printf("5. Exit\n");
         printf("Enter your choice: ");
@@ -263,6 +264,11 @@ int main()
             printf("Enter the position of the node that has to be deleted: ");
             scanf("%d",&pos);
             head = delete_pos(pos, head);
+            break;
+        case 9:
+            printf("Enter the key of the node that has to be deleted: ");
+            scanf("%d",&key);
+            head = delete_pos(key, head);
             break;
         case 6:
             head = delete_front(head);
