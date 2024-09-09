@@ -1,0 +1,76 @@
+Method 1.
+
+#include <stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
+char s[20];
+int top=-1;
+void push(char ch)
+{
+
+  s[++top]=ch;
+}
+char pop()
+{
+  char ch;
+  ch=s[top--];
+  return(ch);
+}
+
+int precedence(char ch)
+{
+
+  switch(ch)
+  {
+    case '+':
+    case '-':return(1);
+    case '*':
+    case '/':return (2);
+    case '^':return (3);
+    case '(':return (0);
+  }
+}
+void infix_postfix(char infix[],char postfix[])
+{ 
+  //int top;
+  int i=0;
+  int j=0;
+  char ch;
+  push('(');
+  for(i=0;i<strlen(infix);i++)
+  {
+    ch=infix[i]; //read input symbol to 'ch'
+    if(isalnum(ch))
+      postfix[j++]=ch;
+    else if(ch=='(')
+      push(ch);
+    else if(ch==')')
+    {
+      while(s[top]!='(')
+      postfix[j++]=pop();
+      ch1=pop();
+    }
+    else
+    {
+      while(precedence(s[top]>=precedence(ch))//if pre(i/p)>pre(stack)-push()
+      postfix[j++]=pop();
+      push(ch);
+    }
+  }
+  while(s[top]!='(')//till stack is empty
+  postfix[j++]=pop();
+  postfix[j]='\0';
+}  
+  
+void main()
+{
+  char infix[20],postfix[20];
+  //int i=0,j=0;
+  printf("enter the infix expression\n");
+  scanf("%s",infix);
+  infix_postfix(infix,postfix);
+  printf("postfix expression is=%s\n",postfix);
+}
+
+Alternate Method:
+
