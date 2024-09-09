@@ -1,0 +1,6 @@
+C program with following functions using doubly link list.
+Insert_rear();
+Insert_front();
+Deelete_rear();
+Delete_front();
+main()
