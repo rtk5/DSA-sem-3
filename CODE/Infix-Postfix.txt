@@ -36,7 +36,7 @@ void infix_postfix(char infix[],char postfix[])
   int i=0;
   int j=0;
   char ch;
-  push('(');
+  push('('));
   for(i=0;i<strlen(infix);i++)
   {
     ch=infix[i]; //read input symbol to 'ch'
@@ -46,18 +46,18 @@ void infix_postfix(char infix[],char postfix[])
       push(ch);
     else if(ch==')')
     {
-      while(s[top]!='(')
+      while(s[top]!='('))
       postfix[j++]=pop();
       ch1=pop();
     }
     else
     {
-      while(precedence(s[top]>=precedence(ch))//if pre(i/p)>pre(stack)-push()
+      while(precedence(s[top]>=precedence(ch))//if pre(i/p)>pre(stack)-push())
       postfix[j++]=pop();
       push(ch);
     }
   }
-  while(s[top]!='(')//till stack is empty
+  while(s[top]!='('))//till stack is empty
   postfix[j++]=pop();
   postfix[j]='\0';
 }  
